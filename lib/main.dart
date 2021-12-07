@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:plants/nav-drawer.dart';
+import 'package:plants/nav-notification.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,18 +17,14 @@ class MyApp extends StatelessWidget {
 }
 
 // IMAGES
-
 var trendImg =
     'https://static.standard.co.uk/2021/07/26/17/Flowerbox-houseplants-collectionjpg?width=640&auto=webp&quality=75&crop=968%3A645%2Csmart';
 
-var flatImg =
-    '';
-
+var flatImg ='';
 
 // COLORS
 var textgreen = Color(0xFF2bb209);
 var icongreen = Color(0xFF6dc20a);
-
 var yellow = Color(0xFFe5f427);
 
 class MyHomePage extends StatelessWidget {
@@ -48,6 +46,16 @@ class MyHomePage extends StatelessWidget {
         activeColor: textgreen,
         // initialActiveIndex: _selectedNavbar,
         // onTap: _changeSelectedNavBar,
+      ),
+      drawer: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                child: DrawerWidget(),
+      ),
+      endDrawer: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                child: NotificationWidget(),
       ),
       body: Container(
         child: ListView(
@@ -180,7 +188,7 @@ class MenuItem extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                         color: icongreen,
-                        borderRadius: BorderRadius.circular(4.0)),
+                        borderRadius: BorderRadius.circular(20)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 4.0),
@@ -343,10 +351,13 @@ class MyAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(
-            Icons.menu_rounded,
-            color: Colors.grey,
-          ),
+          TextButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    child: Icon(
+                          Icons.menu_rounded,
+                          color: Colors.grey,
+                      ),
+                  ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -365,10 +376,13 @@ class MyAppBar extends StatelessWidget {
             ],
           ),
 
-          Icon(
-            Icons.notifications_active_rounded,
-            color: Colors.grey,
-          )
+          TextButton(
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    child: Icon(
+                          Icons.notifications_active_rounded,
+                          color: Colors.grey,
+                      ),
+                  ),
         ],
       ),
     );
@@ -385,11 +399,12 @@ class ItemCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-          height: 160.0,
-          width: 300.0,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(trendImg), fit: BoxFit.cover)),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(trendImg), 
+                    fit: BoxFit.contain
+                )
+            ),
           child: Stack(
             children: <Widget>[
               Container(
